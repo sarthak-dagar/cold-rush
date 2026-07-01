@@ -1,0 +1,50 @@
+.orders-page {
+  margin-top: 64px; padding: 40px 24px;
+  max-width: 800px; margin-left: auto; margin-right: auto;
+}
+.orders-page h1 {
+  font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+  margin-bottom: 24px;
+}
+.order-card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.order-card .top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px;
+}
+.order-card .order-id { font-weight: 600; font-size: 0.9rem; }
+.order-card .status {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+  padding: 4px 14px; border-radius: 50px; font-weight: 600;
+}
+.order-card .status.delivered { background: rgba(26,67,49,0.1); color: var(--green); }
+.order-card .status.preparing { background: rgba(242,201,76,0.15); color: #b8961a; }
+.order-card .items { font-size: 0.85rem; color: var(--sage); margin-bottom: 8px; }
+.order-card .total { font-weight: 700; font-size: 1rem; }
+
+.success-page {
+  margin-top: 64px; min-height: 70vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 40px 24px;
+}
+.success-page .icon {
+  font-size: 3.5rem; margin-bottom: 16px;
+}
+.success-page h2 {
+  font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+  margin-bottom: 8px;
+}
+.success-page p {
+  color: var(--sage); font-size: 1rem; max-width: 400px;
+  margin-bottom: 24px;
+}
+.success-page .btn {
+  padding: 14px 36px; border-radius: 50px; font-weight: 600;
+  background: var(--gold); color: var(--green); border: none;
+  cursor: pointer; font-size: 0.95rem; text-decoration: none;
+  transition: background 0.2s;
+}
+.success-page .btn:hover { background: #e0b83a; }

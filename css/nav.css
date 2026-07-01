@@ -1,0 +1,31 @@
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: var(--white); border-bottom: 1px solid var(--light-green);
+  padding: 0 24px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+nav .logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 700; color: var(--green);
+  letter-spacing: -0.5px; cursor: pointer;
+}
+nav .logo span { color: var(--gold); }
+nav .links { display: flex; gap: 28px; align-items: center; }
+nav .links a {
+  text-decoration: none; color: var(--sage); font-weight: 500;
+  font-size: 0.9rem; cursor: pointer; transition: color 0.2s;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+nav .links a:hover, nav .links a.active { color: var(--green); }
+nav .cart-btn, nav .login-btn {
+  background: none; border: none; cursor: pointer; font-size: 1.2rem;
+  color: var(--green); position: relative;
+}
+nav .cart-badge {
+  position: absolute; top: -6px; right: -8px;
+  background: var(--gold); color: var(--green); font-size: 0.65rem;
+  font-weight: 700; width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; }
+.hamburger span { width: 22px; height: 2px; background: var(--green); border-radius: 2px; }

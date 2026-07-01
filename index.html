@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cold Rush — Brownies · Burgers · Beverages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="showPage('home')">Cold <span>Rush</span></div>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  <div class="links" id="navLinks">
+    <a onclick="showPage('home')" class="active">Home</a>
+    <a onclick="showPage('menu')">Menu</a>
+    <a onclick="showPage('my-orders')">My Orders</a>
+    <button class="login-btn" onclick="openAuth()">👤</button>
+    <button class="cart-btn" onclick="openCart()">
+      🛒 <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<div id="pageContent"></div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="head">
+    <h3>Your Cart</h3>
+    <button onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="icon">🛒</div>
+      <p>Your cart is empty</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="subtotal"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <button class="checkout-btn" onclick="openCheckoutModal()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="checkout-overlay" id="checkoutOverlay" onclick="closeCheckoutModal(event)">
+  <div class="checkout-modal" onclick="event.stopPropagation()">
+    <div class="checkout-head">
+      <h3>Checkout</h3>
+      <button onclick="closeCheckoutModal()">✕</button>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-form">
+        <div class="form-section">
+          <h4>Order Type</h4>
+          <div class="order-type-group">
+            <button class="order-type-btn active" data-type="delivery" onclick="setOrderType(this)">🚚 Delivery</button>
+            <button class="order-type-btn" data-type="takeaway" onclick="setOrderType(this)">🥡 Takeaway</button>
+            <button class="order-type-btn" data-type="dinein" onclick="setOrderType(this)">🍽️ Dine In</button>
+          </div>
+        </div>
+        <div class="form-section">
+          <h4>Contact Details</h4>
+          <div class="field">
+            <label>Full Name <span class="required">*</span></label>
+            <input type="text" id="coName" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label>Phone <span class="required">*</span></label>
+            <input type="tel" id="coPhone" placeholder="+91 90000 00000" required>
+          </div>
+        </div>
+        <div class="form-section" id="addressSection">
+          <h4>Delivery Address</h4>
+          <div class="field">
+            <label>Address <span class="required">*</span></label>
+            <input type="text" id="coAddress" placeholder="Street, area, landmark" required>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label>City <span class="required">*</span></label>
+              <input type="text" id="coCity" placeholder="Your city" required>
+            </div>
+            <div class="field">
+              <label>ZIP <span class="required">*</span></label>
+              <input type="text" id="coZip" placeholder="000000">
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <h4>Payment</h4>
+          <div class="field">
+            <select id="coPayment" onchange="togglePaymentMethod()">
+              <option value="online">Card / UPI (Online)</option>
+              <option value="cod">Cash on Delivery</option>
+            </select>
+          </div>
+          <div id="paymentDetails" class="payment-details">
+            <div class="payment-tabs">
+              <button class="payment-tab active" data-method="card" onclick="switchPaymentTab(this)">💳 Card</button>
+              <button class="payment-tab" data-method="upi" onclick="switchPaymentTab(this)">📱 UPI</button>
+            </div>
+            <div id="cardFields" class="payment-fields">
+              <div class="field">
+                <label>Card Number</label>
+                <input type="text" id="coCardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label>Expiry</label>
+                  <input type="text" id="coCardExpiry" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="field">
+                  <label>CVV</label>
+                  <input type="text" id="coCardCvv" placeholder="123" maxlength="4">
+                </div>
+              </div>
+            </div>
+            <div id="upiFields" class="payment-fields" style="display:none;">
+              <div class="field">
+                <label>UPI ID</label>
+                <input type="text" id="coUpiId" placeholder="username@upi">
+              </div>
+              <div class="upi-qr">
+                <div class="qr-placeholder">📱</div>
+                <p>Scan QR to pay<br><strong>coldrush@upi</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="checkout-sidebar">
+        <div class="checkout-summary-box">
+          <h4>Order Summary</h4>
+          <div id="checkoutItems"></div>
+          <div class="total-row"><span>Total</span><span id="checkoutTotal">₹0</span></div>
+          <button class="place-btn" onclick="placeOrder()">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authOverlay" onclick="closeAuth(event)">
+  <div class="auth-modal" onclick="event.stopPropagation()">
+    <h3 id="authTitle">Welcome</h3>
+    <p class="sub" id="authSub">Sign in to your account</p>
+    <div id="authFields">
+      <div class="field" id="authNameField" style="display:none;">
+        <label>Full Name</label>
+        <input type="text" id="authName" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="authEmail" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="authPass" placeholder="••••••••">
+      </div>
+    </div>
+    <button class="submit-btn" id="authBtn" onclick="submitAuth()">Sign In</button>
+    <div class="toggle">
+      <span id="authToggleText">Don't have an account?</span>
+      <a id="authToggleLink" onclick="toggleAuthMode()">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="auth-overlay" id="adminLoginOverlay" onclick="closeAdminLogin(event)">
+  <div class="auth-modal" onclick="event.stopPropagation()">
+    <h3>🔐 Admin Login</h3>
+    <p class="sub">Enter admin credentials</p>
+    <div class="field">
+      <label>Admin ID</label>
+      <input type="text" id="adminId" placeholder="admin">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="adminPass" placeholder="••••••••">
+    </div>
+    <button class="submit-btn" onclick="submitAdminLogin()">Login</button>
+    <p id="adminLoginError" style="color:var(--terracotta);font-size:0.8rem;text-align:center;margin-top:8px;display:none;">Invalid credentials!</p>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

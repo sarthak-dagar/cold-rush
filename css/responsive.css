@@ -1,0 +1,44 @@
+@media (max-width: 1024px) {
+  .features { grid-template-columns: 1fr 1fr; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .fav-grid { grid-template-columns: 1fr 1fr; }
+  .menu-grid { grid-template-columns: repeat(3, 1fr); }
+  footer .inner { grid-template-columns: 1fr 1fr; }
+  .admin-panel .stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  nav .links {
+    display: none; flex-direction: column; position: fixed; top: 64px;
+    left: 0; width: 100%; background: var(--white); padding: 20px;
+    box-shadow: var(--shadow); z-index: 99;
+  }
+  nav .links.open { display: flex; }
+  .hamburger { display: flex; }
+  .hero h1 { font-size: 2.4rem; }
+  .features { grid-template-columns: 1fr; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .fav-grid { grid-template-columns: 1fr; }
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .bowls-section .inner { grid-template-columns: 1fr; }
+  footer .inner { grid-template-columns: 1fr; }
+  .cart-drawer { width: 100%; right: -100%; }
+  .checkout-body { grid-template-columns: 1fr; }
+  .checkout-modal { max-width: 100%; border-radius: 0; height: 100vh; max-height: 100vh; }
+  .admin-panel { flex-direction: column; }
+  .admin-panel .sidebar { width: 100%; padding: 12px 0; }
+  .admin-panel .sidebar .links { display: flex; overflow-x: auto; padding: 0 12px; gap: 4px; }
+  .admin-panel .sidebar a { border-left: none; border-bottom: 3px solid transparent; white-space: nowrap; }
+  .admin-panel .sidebar a:hover, .admin-panel .sidebar a.active { border-left-color: transparent; border-bottom-color: var(--gold); }
+  .admin-stats { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  nav { padding: 0 12px; }
+  .hero h1 { font-size: 1.8rem; }
+  .hero .btn-group { flex-direction: column; align-items: center; }
+  .features { padding: 40px 16px; }
+  .category-grid { grid-template-columns: 1fr 1fr; }
+  .category-tile { height: 140px; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .checkout-modal .form-row { grid-template-columns: 1fr; }
+  .admin-panel .stats { grid-template-columns: 1fr; }
+}

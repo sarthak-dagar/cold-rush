@@ -1,0 +1,35 @@
+.auth-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  z-index: 300; display: none; align-items: center; justify-content: center;
+}
+.auth-overlay.open { display: flex; }
+.auth-modal {
+  background: var(--white); border-radius: var(--radius); padding: 32px;
+  width: 90%; max-width: 400px;
+}
+.auth-modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; margin-bottom: 4px;
+}
+.auth-modal .sub { color: var(--sage); font-size: 0.85rem; margin-bottom: 20px; }
+.auth-modal .field { margin-bottom: 14px; }
+.auth-modal .field label {
+  font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;
+}
+.auth-modal .field input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--light-green);
+  border-radius: 8px; font-size: 0.9rem; outline: none;
+  font-family: 'Outfit', sans-serif;
+}
+.auth-modal .field input:focus { border-color: var(--gold); }
+.auth-modal .submit-btn {
+  width: 100%; padding: 12px; border: none; border-radius: 50px;
+  background: var(--green); color: var(--white); font-weight: 700;
+  cursor: pointer; font-size: 0.95rem; margin-top: 8px;
+  font-family: 'Outfit', sans-serif;
+}
+.auth-modal .submit-btn:hover { background: var(--green-dark); }
+.auth-modal .toggle {
+  text-align: center; margin-top: 14px; font-size: 0.85rem; color: var(--sage);
+}
+.auth-modal .toggle a { color: var(--green); font-weight: 600; cursor: pointer; }

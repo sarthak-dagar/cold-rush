@@ -1,0 +1,86 @@
+<section class="hero">
+  <div class="hero-content">
+    <div class="tagline">Brownies · Burgers · Beverages</div>
+    <h1>Crave it. <em>Order it.</em><br>Cold Rush it.</h1>
+    <p>Hand-crafted brownie bowls, sizzling burgers and fresh wraps — delivered hot or chilled to your doorstep, table, or takeaway bag.</p>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="showPage('menu')">🍔 Order Now</button>
+      <button class="btn btn-outline" onclick="showPage('menu')">Explore Menu</button>
+    </div>
+  </div>
+</section>
+
+<div class="features">
+  <div class="feature-card">
+    <div class="icon">👩‍🍳</div>
+    <h3>Made Fresh, Always</h3>
+    <p>Every order cooked the moment it's placed. No shortcuts.</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🍫</div>
+    <h3>Indulgent Brownie Bowls</h3>
+    <p>Our signature warm brownie bases under rivers of chocolate.</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">✨</div>
+    <h3>Combo Magic</h3>
+    <p>Pair drinks, burgers, sandwiches and salads — starting ₹99.</p>
+  </div>
+</div>
+
+<div class="categories-section">
+  <div class="header">
+    <h2>Explore by Mood</h2>
+    <a onclick="showPage('menu')">All Menu →</a>
+  </div>
+  <div class="category-grid" id="categoryGrid"></div>
+</div>
+
+<div class="favourites">
+  <h2>Today's favourites</h2>
+  <p style="text-align:center;color:var(--sage);margin-bottom:24px;font-size:0.9rem;">A taste of what's trending at the counter.</p>
+  <div class="fav-grid" id="favGrid"></div>
+</div>
+
+<div class="bowls-section">
+  <div class="inner">
+    <div class="text">
+      <div class="badge">Signature</div>
+      <h2>The Cold Rush<br>Brownie Bowls</h2>
+      <p>Fresh brownie base. Thin layer of cream. Decadent chocolate. From classic milk to Lotus Biscoff and Kunafa — pick your weakness.</p>
+      <button class="btn" onclick="filterMenuBy('chocolate-bowls')">See all bowls →</button>
+    </div>
+    <div class="image">
+      <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600" alt="Brownie Bowls" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="inner">
+    <div>
+      <h3>Cold <span>Rush</span></h3>
+      <p>Brownies that hug back. Burgers that bite back. A neighborhood cafe serving cravings hot, cold, and everything in between.</p>
+    </div>
+    <div class="col">
+      <h4>Explore</h4>
+      <a onclick="showPage('menu')">Menu</a>
+      <a onclick="showPage('my-orders')">My Orders</a>
+      <a onclick="openAuth()">Login</a>
+    </div>
+    <div class="col">
+      <h4>Visit</h4>
+      <a>Cold Rush Cafe, Your City</a>
+      <a>+91 90000 00000</a>
+    </div>
+    <div class="col">
+      <h4>Follow</h4>
+      <a>Instagram</a>
+      <a>Facebook</a>
+      <a onclick="openAdminLogin()" style="color:var(--gold);font-size:0.75rem;margin-top:8px;">🔐 Admin</a>
+    </div>
+  </div>
+  <div class="bottom">
+    <p>© 2026 Cold Rush. Crafted with cocoa & care.</p>
+  </div>
+</footer>
