@@ -432,6 +432,9 @@ window.addEventListener('storage', (e) => {
     updateCartUI();
   } else if (e.key === 'orders') {
     orders = JSON.parse(e.newValue || '[]');
+    const page = location.hash.replace('#/', '').replace('#', '');
+    if (page === 'my-orders') renderOrders();
+    if (page === 'admin') renderAdmin();
   }
 });
 
@@ -448,6 +451,7 @@ function handleHash() {
 window.addEventListener('hashchange', handleHash);
 
 // ===== INIT =====
+updateCartUI();
 let page = location.hash.replace('#/', '').replace('#', '');
 if (!page) page = 'home';
 showPage(page);
