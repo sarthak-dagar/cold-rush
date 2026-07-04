@@ -3,15 +3,17 @@ let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let orderType = 'delivery';
 let currentMenuCat = 'all';
 let isLogin = true;
-let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+let orders = [];
 let loggedIn = false;
+let adminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
 
 function saveCart() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-function saveOrders() {
-  localStorage.setItem('orders', JSON.stringify(orders));
+async function api(url, opts = {}) {
+  const res = await fetch(url, { headers: { 'Content-Type': 'application/json' }, ...opts });
+  return res.json();
 }
 
 // ===== RENDER FUNCTIONS =====
@@ -229,9 +231,9 @@ function placeOrder() {
 
   const total = cart.reduce((s,c) => s + c.price * c.qty, 0);
   const order = { id: Date.now(), items: [...cart], total, name, phone, address, city, payment: paymentInfo, type: orderType, status: 'placed', date: new Date().toLocaleString() };
+  api('/api/orders', { method: 'POST', body: JSON.stringify(order) });
   orders.unshift(order);
   cart = [];
-  saveOrders();
   saveCart();
   updateCartUI();
   closeCheckoutModal();
@@ -266,7 +268,6 @@ function submitAuth() {
 
 // ===== PAGE NAVIGATION =====
 const pageCache = {};
-let adminLoggedIn = false;
 let pageCallbacks = {};
 
 function showPage(page, cb) {
@@ -337,6 +338,7 @@ function submitAdminLoginPage() {
   const pass = document.getElementById('adminPass').value.trim();
   if (id === 'admin' && pass === 'admin123') {
     adminLoggedIn = true;
+    localStorage.setItem('adminLoggedIn', 'true');
     document.getElementById('adminLoginError').style.display = 'none';
     showPage('admin');
   } else {
@@ -344,8 +346,9 @@ function submitAdminLoginPage() {
   }
 }
 
-function renderAdmin() {
+async function renderAdmin() {
   const container = document.getElementById('adminOrderList');
+  orders = await api('/api/orders');
   if (orders.length === 0) {
     container.innerHTML = '<p style="color:var(--sage);">No orders yet.</p>';
     return;
@@ -392,16 +395,17 @@ function renderAdmin() {
 }
 
 function updateOrderStatus(orderId, newStatus) {
+  api('/api/orders/' + orderId, { method: 'PATCH', body: JSON.stringify({ status: newStatus }) });
   const order = orders.find(o => o.id === orderId);
   if (order) {
     order.status = newStatus;
-    saveOrders();
     renderAdmin();
   }
 }
 
-function renderOrders() {
+async function renderOrders() {
   const container = document.getElementById('ordersList');
+  orders = await api('/api/orders');
   if (orders.length === 0) {
     container.innerHTML = '<p style="color:var(--sage);">No orders yet. Place your first order!</p>';
     return;
@@ -430,11 +434,6 @@ window.addEventListener('storage', (e) => {
   if (e.key === 'cart') {
     cart = JSON.parse(e.newValue || '[]');
     updateCartUI();
-  } else if (e.key === 'orders') {
-    orders = JSON.parse(e.newValue || '[]');
-    const page = location.hash.replace('#/', '').replace('#', '');
-    if (page === 'my-orders') renderOrders();
-    if (page === 'admin') renderAdmin();
   }
 });
 

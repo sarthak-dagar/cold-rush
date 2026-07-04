@@ -1,0 +1,9 @@
+{
+  "name": "cold-rush",
+  "version": "1.0.0",
+  "description": "Cold Rush food ordering app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
