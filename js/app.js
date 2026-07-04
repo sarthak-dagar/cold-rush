@@ -290,10 +290,10 @@ function showPage(page, cb) {
   document.getElementById('navLinks').classList.remove('open');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  const path = '/' + page;
-  if (location.pathname !== path) {
+  const hash = '#/' + page;
+  if (location.hash !== hash) {
     navigating = true;
-    history.pushState(null, '', path);
+    location.hash = hash;
     navigating = false;
   }
 }
@@ -412,19 +412,19 @@ function renderOrders() {
 
 function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
 
-// ===== HISTORY API ROUTING =====
+// ===== HASH ROUTING =====
 let navigating = false;
 
-function handlePop() {
+function handleHash() {
   if (navigating) return;
-  let page = location.pathname.replace(/^\//, '');
-  if (!page || page === 'index.html') page = 'home';
+  let page = location.hash.replace('#/', '').replace('#', '');
+  if (!page) page = 'home';
   showPage(page);
 }
 
-window.addEventListener('popstate', handlePop);
+window.addEventListener('hashchange', handleHash);
 
 // ===== INIT =====
-let page = location.pathname.replace(/^\//, '');
-if (!page || page === 'index.html') page = 'home';
+let page = location.hash.replace('#/', '').replace('#', '');
+if (!page) page = 'home';
 showPage(page);
