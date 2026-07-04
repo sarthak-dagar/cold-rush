@@ -259,11 +259,11 @@ let pageCallbacks = {};
 
 function showPage(page, cb) {
   if (page === 'admin' && !adminLoggedIn) {
-    openAdminLogin();
+    showPage('admin-login');
     return;
   }
 
-  const pageMap = { home:'home', menu:'menu', 'my-orders':'orders', success:'success', admin:'admin' };
+  const pageMap = { home:'home', menu:'menu', 'my-orders':'orders', success:'success', admin:'admin', 'admin-login':'admin-login' };
   const file = pageMap[page] || page;
 
   if (cb) pageCallbacks[page] = cb;
@@ -289,6 +289,13 @@ function showPage(page, cb) {
   if (link) link.classList.add('active');
   document.getElementById('navLinks').classList.remove('open');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const path = '/' + page;
+  if (location.pathname !== path) {
+    navigating = true;
+    history.pushState(null, '', path);
+    navigating = false;
+  }
 }
 
 function afterPageLoad(page) {
@@ -302,6 +309,10 @@ function afterPageLoad(page) {
     renderOrders();
   } else if (page === 'admin') {
     renderAdmin();
+  } else if (page === 'admin-login') {
+    document.getElementById('adminLoginError').style.display = 'none';
+    document.getElementById('adminId').value = '';
+    document.getElementById('adminPass').value = '';
   }
   if (pageCallbacks[page]) {
     pageCallbacks[page]();
@@ -309,24 +320,12 @@ function afterPageLoad(page) {
   }
 }
 
-function openAdminLogin() {
-  document.getElementById('adminLoginOverlay').classList.add('open');
-  document.getElementById('adminLoginError').style.display = 'none';
-  document.getElementById('adminId').value = '';
-  document.getElementById('adminPass').value = '';
-}
-
-function closeAdminLogin(e) {
-  if (e && e.target !== document.getElementById('adminLoginOverlay')) return;
-  document.getElementById('adminLoginOverlay').classList.remove('open');
-}
-
-function submitAdminLogin() {
+function submitAdminLoginPage() {
   const id = document.getElementById('adminId').value.trim();
   const pass = document.getElementById('adminPass').value.trim();
   if (id === 'admin' && pass === 'admin123') {
     adminLoggedIn = true;
-    closeAdminLogin(null);
+    document.getElementById('adminLoginError').style.display = 'none';
     showPage('admin');
   } else {
     document.getElementById('adminLoginError').style.display = 'block';
@@ -413,5 +412,19 @@ function renderOrders() {
 
 function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
 
+// ===== HISTORY API ROUTING =====
+let navigating = false;
+
+function handlePop() {
+  if (navigating) return;
+  let page = location.pathname.replace(/^\//, '');
+  if (!page || page === 'index.html') page = 'home';
+  showPage(page);
+}
+
+window.addEventListener('popstate', handlePop);
+
 // ===== INIT =====
-showPage('home');
+let page = location.pathname.replace(/^\//, '');
+if (!page || page === 'index.html') page = 'home';
+showPage(page);

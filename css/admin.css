@@ -39,3 +39,48 @@
   font-family: 'Outfit', sans-serif; transition: all 0.2s;
 }
 .admin-order-card .status-actions button:hover { border-color: var(--green); background: rgba(26,67,49,0.05); }
+
+/* Admin Login Page */
+.admin-login-page {
+  min-height: calc(100vh - 70px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 24px;
+}
+.admin-login-card {
+  background: var(--white); border-radius: var(--radius); padding: 40px 32px;
+  width: 100%; max-width: 400px; box-shadow: var(--shadow);
+  text-align: center;
+}
+.admin-login-card .admin-login-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem; font-weight: 700; margin-bottom: 24px; cursor: pointer;
+}
+.admin-login-card .admin-login-logo span { color: var(--gold); }
+.admin-login-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; margin-bottom: 4px;
+}
+.admin-login-card .sub { color: var(--sage); font-size: 0.85rem; margin-bottom: 24px; }
+.admin-login-card .field { margin-bottom: 16px; text-align: left; }
+.admin-login-card .field label {
+  font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;
+}
+.admin-login-card .field input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--light-green);
+  border-radius: 8px; font-size: 0.9rem; outline: none;
+  font-family: 'Outfit', sans-serif;
+}
+.admin-login-card .field input:focus { border-color: var(--gold); }
+.admin-login-card .submit-btn {
+  width: 100%; padding: 12px; border: none; border-radius: 50px;
+  background: var(--green); color: var(--white); font-weight: 700;
+  cursor: pointer; font-size: 0.95rem; margin-top: 8px;
+  font-family: 'Outfit', sans-serif;
+}
+.admin-login-card .submit-btn:hover { background: var(--green-dark); }
+.admin-login-card .back-link {
+  display: inline-block; margin-top: 16px;
+  color: var(--sage); font-size: 0.85rem; cursor: pointer;
+  text-decoration: none;
+}
+.admin-login-card .back-link:hover { color: var(--green); }

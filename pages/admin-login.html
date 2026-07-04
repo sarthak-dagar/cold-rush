@@ -1,0 +1,18 @@
+<div class="admin-login-page">
+  <div class="admin-login-card">
+    <div class="admin-login-logo" onclick="showPage('home')">Cold <span>Rush</span></div>
+    <h3>🔐 Admin Login</h3>
+    <p class="sub">Enter admin credentials to manage orders</p>
+    <div class="field">
+      <label>Admin ID</label>
+      <input type="text" id="adminId" placeholder="admin">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="adminPass" placeholder="••••••••">
+    </div>
+    <button class="submit-btn" onclick="submitAdminLoginPage()">Login</button>
+    <p id="adminLoginError" style="color:var(--terracotta);font-size:0.8rem;text-align:center;margin-top:8px;display:none;">Invalid credentials!</p>
+    <a class="back-link" onclick="showPage('home')">← Back to Home</a>
+  </div>
+</div>
