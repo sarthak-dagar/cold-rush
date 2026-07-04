@@ -6,6 +6,13 @@ let isLogin = true;
 let orders = [];
 let loggedIn = false;
 let adminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+let customerId = localStorage.getItem('customerId') || genId();
+
+function genId() {
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  localStorage.setItem('customerId', id);
+  return id;
+}
 
 function saveCart() {
   localStorage.setItem('cart', JSON.stringify(cart));
@@ -230,7 +237,7 @@ function placeOrder() {
   }
 
   const total = cart.reduce((s,c) => s + c.price * c.qty, 0);
-  const order = { id: Date.now(), items: [...cart], total, name, phone, address, city, payment: paymentInfo, type: orderType, status: 'placed', date: new Date().toLocaleString() };
+  const order = { id: Date.now(), customerId, items: [...cart], total, name, phone, address, city, payment: paymentInfo, type: orderType, status: 'placed', date: new Date().toLocaleString() };
   api('/api/orders', { method: 'POST', body: JSON.stringify(order) });
   orders.unshift(order);
   cart = [];
@@ -405,12 +412,13 @@ function updateOrderStatus(orderId, newStatus) {
 
 async function renderOrders() {
   const container = document.getElementById('ordersList');
-  orders = await api('/api/orders');
-  if (orders.length === 0) {
+  const allOrders = await api('/api/orders');
+  const myOrders = allOrders.filter(o => o.customerId === customerId);
+  if (myOrders.length === 0) {
     container.innerHTML = '<p style="color:var(--sage);">No orders yet. Place your first order!</p>';
     return;
   }
-  container.innerHTML = orders.map(o => `
+  container.innerHTML = myOrders.map(o => `
     <div style="background:var(--white);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow-sm);">
       <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
         <strong>#${o.id}</strong>
