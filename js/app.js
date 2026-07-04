@@ -1,10 +1,18 @@
 // ===== STATE =====
-let cart = [];
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let orderType = 'delivery';
 let currentMenuCat = 'all';
 let isLogin = true;
-let orders = [];
+let orders = JSON.parse(localStorage.getItem('orders') || '[]');
 let loggedIn = false;
+
+function saveCart() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function saveOrders() {
+  localStorage.setItem('orders', JSON.stringify(orders));
+}
 
 // ===== RENDER FUNCTIONS =====
 function renderCategories() {
@@ -76,14 +84,16 @@ function addToCart(id) {
   const existing = cart.find(c => c.id === id);
   if (existing) { existing.qty++; }
   else { cart.push({ ...item, qty: 1 }); }
+  saveCart();
   updateCartUI();
 }
 
-function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+function removeFromCart(index) { cart.splice(index, 1); saveCart(); updateCartUI(); }
 
 function changeQty(index, delta) {
   cart[index].qty += delta;
   if (cart[index].qty <= 0) cart.splice(index, 1);
+  saveCart();
   updateCartUI();
 }
 
@@ -221,6 +231,8 @@ function placeOrder() {
   const order = { id: Date.now(), items: [...cart], total, name, phone, address, city, payment: paymentInfo, type: orderType, status: 'placed', date: new Date().toLocaleString() };
   orders.unshift(order);
   cart = [];
+  saveOrders();
+  saveCart();
   updateCartUI();
   closeCheckoutModal();
   showPage('success');
@@ -383,6 +395,7 @@ function updateOrderStatus(orderId, newStatus) {
   const order = orders.find(o => o.id === orderId);
   if (order) {
     order.status = newStatus;
+    saveOrders();
     renderAdmin();
   }
 }
@@ -411,6 +424,16 @@ function renderOrders() {
 }
 
 function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+
+// ===== CROSS-TAB SYNC =====
+window.addEventListener('storage', (e) => {
+  if (e.key === 'cart') {
+    cart = JSON.parse(e.newValue || '[]');
+    updateCartUI();
+  } else if (e.key === 'orders') {
+    orders = JSON.parse(e.newValue || '[]');
+  }
+});
 
 // ===== HASH ROUTING =====
 let navigating = false;
