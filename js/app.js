@@ -310,10 +310,10 @@ function showPage(page, cb) {
   document.getElementById('navLinks').classList.remove('open');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  const hash = '#/' + page;
-  if (location.hash !== hash) {
+  const path = '/' + page;
+  if (location.pathname !== path) {
     navigating = true;
-    location.hash = hash;
+    history.pushState(null, '', path);
     navigating = false;
   }
 }
@@ -445,20 +445,20 @@ window.addEventListener('storage', (e) => {
   }
 });
 
-// ===== HASH ROUTING =====
+// ===== HISTORY API ROUTING =====
 let navigating = false;
 
-function handleHash() {
+function handlePop() {
   if (navigating) return;
-  let page = location.hash.replace('#/', '').replace('#', '');
-  if (!page) page = 'home';
+  let page = location.pathname.replace(/^\//, '');
+  if (!page || page === 'index.html') page = 'home';
   showPage(page);
 }
 
-window.addEventListener('hashchange', handleHash);
+window.addEventListener('popstate', handlePop);
 
 // ===== INIT =====
 updateCartUI();
-let page = location.hash.replace('#/', '').replace('#', '');
-if (!page) page = 'home';
+let page = location.pathname.replace(/^\//, '');
+if (!page || page === 'index.html') page = 'home';
 showPage(page);
