@@ -304,7 +304,7 @@ function showPage(page, cb) {
       });
   }
 
-  document.querySelectorAll('nav .links a').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('nav .links a').forEach(a => a.classList.remove('active'));      
   const link = document.querySelector(`nav .links a[onclick*="'${page}'"]`);
   if (link) link.classList.add('active');
   document.getElementById('navLinks').classList.remove('open');
